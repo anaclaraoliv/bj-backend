@@ -1,0 +1,54 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# ... existing code ...
+
+# Variáveis de ambiente (Contém senhas e chaves locais)
+.env
+application.properties
+
+# Pasta de dependências local (que você criou por engano no projeto)
+.m2/
+
+# Arquivos de log e saídas de terminal
+*.log
+.output.txt
+
+# IntelliJ IDEA e arquivos de sistema
+.idea/
+.DS_Store
+
+# Compilação e Build
+/target/
+
