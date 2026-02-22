@@ -1,6 +1,7 @@
 package io.github.anaclaraoliv.bullet_journal_backend.controller;
 
-import io.github.anaclaraoliv.bullet_journal_backend.entity.TaskEntity;
+import io.github.anaclaraoliv.bullet_journal_backend.dto.request.TaskPositionUpdateRequest;
+import io.github.anaclaraoliv.bullet_journal_backend.entity.taskEntity;
 import io.github.anaclaraoliv.bullet_journal_backend.service.taskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,38 +13,36 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // :5173
 public class taskController {
 
     private final taskService service;
 
     @GetMapping
-    public List<TaskEntity> getAllTasks() {
+    public List<taskEntity> getAllTasks() {
         return service.findAll();
     }
 
     @GetMapping("/date/{date}")
-    public List<TaskEntity> getTasksByDate(@PathVariable String date) {
+    public List<taskEntity> getTasksByDate(@PathVariable String date) {
         return service.findAllByDate(date);
     }
 
     @GetMapping("/task/{id}")
-    public TaskEntity getTasksById(@PathVariable String id) {
+    public taskEntity getTasksById(@PathVariable String id) {
         return service.findTaskById(id);
     }
 
     @PostMapping()
-    public ResponseEntity<TaskEntity> createTask(@RequestBody TaskEntity task) {
-        TaskEntity savedTask = service.save(task);
+    public ResponseEntity<taskEntity> createTask(@RequestBody taskEntity task) {
+        taskEntity savedTask = service.save(task);
         return new ResponseEntity<>(savedTask, HttpStatus.CREATED);
     }
 
-//@PutMapping("/editTask/{id}")
-//public ResponseEntity<TaskEntity> updateTask(@PathVariable String id, @RequestBody TaskEntity taskDetails) {
-//    return service.updateTaskById(id, taskDetails)
-//            .map(ResponseEntity::ok)
-//            .orElse(ResponseEntity.notFound().build());
-//}
+    @PatchMapping("/task/updateTask")
+    public ResponseEntity<taskEntity> updateTasksPositions(@RequestBody taskEntity taskUpdate) {
+        taskEntity updated = service.save(taskUpdate);
+        return ResponseEntity.ok(updated);
+    }
 
     @PatchMapping("/task/updateStatus/{id}")
     public ResponseEntity<Void> updateStatus(@PathVariable String id) {
@@ -52,6 +51,14 @@ public class taskController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PatchMapping("/updateOrder")
+    public ResponseEntity<Void> updateOrder(@RequestBody List<TaskPositionUpdateRequest> requests) {
+        List<String> ids = requests.stream().map(TaskPositionUpdateRequest::id).toList();
+        List<Integer> positions = requests.stream().map(TaskPositionUpdateRequest::position).toList();
+
+        service.updateOrderByPositions(ids, positions);
+        return ResponseEntity.ok().build();
+    }
 
     @DeleteMapping("/task/delete/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable String id) {

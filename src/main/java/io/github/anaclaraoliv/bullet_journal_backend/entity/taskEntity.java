@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskEntity {
+public class taskEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,5 +30,8 @@ public class TaskEntity {
 
     @Column(nullable = false)
     private String category;
+
+    @Column(nullable = false)
+    private Integer position;
 
 }

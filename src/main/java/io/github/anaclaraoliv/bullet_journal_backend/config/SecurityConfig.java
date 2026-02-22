@@ -12,11 +12,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http){
         http
-                .csrf(AbstractHttpConfigurer::disable) // Desativa CSRF para permitir POST e PUT
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Libera todos os endpoints para teste
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
